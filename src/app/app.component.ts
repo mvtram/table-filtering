@@ -1,6 +1,11 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
+
+import { MatPaginator } from '@angular/material/paginator';
+
+
+
 export interface PeriodicElement {
   name: string;
   position: number;
@@ -30,13 +35,26 @@ const ELEMENT_DATA: PeriodicElement[] = [
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'myapp';
 
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
 
+  dataSourcee = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+
+
+  ngOnInit() {
+    this.dataSourcee.paginator = this.paginator;
+  }
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
-}
+  }
+
+
+
+
+
 }
